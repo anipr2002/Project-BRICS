@@ -2,17 +2,19 @@ import cv2
 import time
 import os
 
-#RGB camera. Use port for your laptop
-cap = cv2.VideoCapture(1)
-## Ir camera of realsense
-cap_ir = cv2.VideoCapture(2)
 
-#Auto exposure for cameras that don't have it
-cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.3)
 
 
 def capture(cap = 1, cap_ir = 1, mode = 1, num_images = 10, path = os.getcwd()+"/src/capture_images/" + "images/"):
-    
+
+    #RGB camera. Use port for your laptop
+    cap = cv2.VideoCapture(1)
+    ## Ir camera of realsense
+    cap_ir = cv2.VideoCapture(2)
+
+    #Auto exposure for cameras that don't have it
+    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.3)
+
     if not os.path.exists(path):
             os.makedirs(path)
 
