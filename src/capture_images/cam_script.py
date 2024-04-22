@@ -5,12 +5,12 @@ import os
 
 
 
-def capture(cap = 1, cap_ir = 1, mode = 1, num_images = 10, path = os.getcwd()+"/src/capture_images/" + "images/"):
+def capture(port_rgb = 1, port_ir = 2, mode = 1, num_images = 10, path = os.getcwd()+"/src/capture_images/" + "images/"):
 
     #RGB camera. Use port for your laptop
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(port_rgb)
     ## Ir camera of realsense
-    cap_ir = cv2.VideoCapture(2)
+    cap_ir = cv2.VideoCapture(port_ir)
 
     #Auto exposure for cameras that don't have it
     cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.3)
@@ -34,19 +34,24 @@ def capture(cap = 1, cap_ir = 1, mode = 1, num_images = 10, path = os.getcwd()+"
     elif mode == 2:
         #Auto capturing for seconds
         delay = 0.1
-        for i in range(num_images):
-        
-            print(f"Taking picture {i+1} in {delay} seconds...")
+        cap_images = 0
+        while cap_images < num_images:    
+            cap_images += 1    
+            print(f"Taking picture {cap_images} in {delay} seconds...")
             time.sleep(delay)
 
             ret, frame = cap.read()
-        
-            image_path = os.path.join(path, f"captured_image_{i+1}.jpg")
+
+            cv2.imshow('frame', frame)
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+            image_path = os.path.join(path, f"captured_image_{cap_images}.jpg")
             print(image_path)
             cv2.imwrite(image_path, frame)
-            print(f"Image {i+1} captured successfully!")
+            print(f"Image {cap_images} captured successfully!")
     
         cap.release()
         cv2.destroyAllWindows()
 
-capture(mode = 2, num_images= 20)
+capture(port_rgb = 0, mode = 2, num_images= 250)
