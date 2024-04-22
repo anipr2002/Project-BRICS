@@ -11,7 +11,8 @@ cap_ir = cv2.VideoCapture(2)
 cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.3)
 
 
-def capture(mode = 1, num_images = 10, path = os.getcwd()+"/src/capture_images/" + "images/"):
+def capture(cap = 1, cap_ir = 1, mode = 1, num_images = 10, path = os.getcwd()+"/src/capture_images/" + "images/"):
+    
     if not os.path.exists(path):
             os.makedirs(path)
 
