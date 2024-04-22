@@ -3,7 +3,7 @@ import time
 import os
 
 #RGB camera. Use port for your laptop
-cap = cv2.VideoCapture(4)
+cap = cv2.VideoCapture(1)
 ## Ir camera of realsense
 cap_ir = cv2.VideoCapture(2)
 
@@ -11,7 +11,7 @@ cap_ir = cv2.VideoCapture(2)
 cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.3)
 
 
-def capture(mode = 1, num_images = 10, path = os.getcwd()+"capture_images/" + "images"):
+def capture(mode = 1, num_images = 10, path = os.getcwd()+"/src/capture_images/" + "images/"):
     if not os.path.exists(path):
             os.makedirs(path)
 
@@ -38,7 +38,8 @@ def capture(mode = 1, num_images = 10, path = os.getcwd()+"capture_images/" + "i
 
             ret, frame = cap.read()
         
-            image_path = os.path.join(output_dir, f"captured_image_{i+1}.jpg")
+            image_path = os.path.join(path, f"captured_image_{i+1}.jpg")
+            print(image_path)
             cv2.imwrite(image_path, frame)
             print(f"Image {i+1} captured successfully!")
     
