@@ -1,4 +1,5 @@
 import cv2
+import time
 import os
 
 #RGB camera. Use port for your laptop
@@ -9,7 +10,11 @@ cap_ir = cv2.VideoCapture(2)
 #Auto exposure for cameras that don't have it
 cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.3)
 
-def capture(mode = 1, seconds = 10, path = os.getcwd()+"capture_images/" + "images"):
+
+def capture(mode = 1, num_images = 10, path = os.getcwd()+"capture_images/" + "images"):
+    if not os.path.exists(path):
+            os.makedirs(path)
+
     if mode == 1: #Manual capturing
         num = 0
         while True:
@@ -25,6 +30,19 @@ def capture(mode = 1, seconds = 10, path = os.getcwd()+"capture_images/" + "imag
     
     elif mode == 2:
         #Auto capturing for seconds
-        pass
+        delay = 0.1
+        for i in range(num_images):
+        
+            print(f"Taking picture {i+1} in {delay} seconds...")
+            time.sleep(delay)
 
-capture(mode = 1)
+            ret, frame = cap.read()
+        
+            image_path = os.path.join(output_dir, f"captured_image_{i+1}.jpg")
+            cv2.imwrite(image_path, frame)
+            print(f"Image {i+1} captured successfully!")
+    
+        cap.release()
+        cv2.destroyAllWindows()
+
+capture(mode = 2, num_images= 20)
