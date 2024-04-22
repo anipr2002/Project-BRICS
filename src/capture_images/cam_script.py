@@ -1,4 +1,5 @@
 import cv2
+import os
 
 #RGB camera. Use port for your laptop
 cap = cv2.VideoCapture(4)
@@ -8,7 +9,7 @@ cap_ir = cv2.VideoCapture(2)
 #Auto exposure for cameras that don't have it
 cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.3)
 
-def capture(mode = 1, seconds = 10):
+def capture(mode = 1, seconds = 10, path = os.getcwd()+"capture_images/" + "images"):
     if mode == 1: #Manual capturing
         num = 0
         while True:
@@ -17,7 +18,7 @@ def capture(mode = 1, seconds = 10):
             
             if cv2.waitKey(1) & 0xFF == ord(' '):
                 num += 1
-                cv2.imwrite(f'image_{num}.jpg', frame)
+                cv2.imwrite(f'{path}/manual_image_{num}.jpg', frame)
                 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
