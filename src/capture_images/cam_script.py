@@ -1,7 +1,11 @@
 import cv2
 
+#RGB camera. Use port for your laptop
 cap = cv2.VideoCapture(4)
-cap2 = cv2.VideoCapture(2)
+## Ir camera of realsense
+cap_ir = cv2.VideoCapture(2)
+
+#Auto exposure for cameras that don't have it
 cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.3)
 
 def capture(mode = 1, seconds = 10):
@@ -21,3 +25,5 @@ def capture(mode = 1, seconds = 10):
     elif mode == 2:
         #Auto capturing for seconds
         pass
+
+capture(mode = 1)
