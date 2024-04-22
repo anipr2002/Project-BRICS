@@ -1,7 +1,7 @@
 import cv2
 
 cap = cv2.VideoCapture(1)
-cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 3)
+cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.5)
 
 num = 0
 while True:
