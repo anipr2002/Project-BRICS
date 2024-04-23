@@ -28,6 +28,21 @@
 
 ## 🌐Running the Application
 
+Create a virtual env
+```bash
+virtualenv venv
+```
+
+Activate the env
+```bash
+./venv/Scripts/activate
+```
+
+Dowload the Dependencies
+```bash
+pip install -r requirements.txt
+```
+
 ## 🙌How to Contribute
 
 > [!note]
