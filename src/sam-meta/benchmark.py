@@ -20,7 +20,7 @@ CHECKPOINT_VIT_B = os.path.join(os.path.dirname(__file__), './model/sam_vit_b_01
 
 # Define model checkpoints and device
 DEVICE = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-MODEL_TYPE = ["vit_l","vit_h", "vit_b"]
+MODEL_TYPE = ["vit_b","vit_l", "vit_h"]
 
 
 for model_type in MODEL_TYPE:
