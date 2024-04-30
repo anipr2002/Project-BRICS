@@ -13,6 +13,7 @@ torch = "^2.3.0"
 torchvision = "^0.18.0"
 opencv-python = "^4.9.0.80"
 supervision = "^0.20.0"
+ultralytics = "^8.2.5"
 
 [build-system]
 requires = ["poetry-core"]
