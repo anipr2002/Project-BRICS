@@ -1,12 +1,11 @@
 import cv2
 import time
 import os
+import pathlib
 
+def capture(port_rgb = 1, port_ir = 2, mode = 1, num_images = 10, path = "/home/reddy/BRICS/data/images"):
 
-
-
-def capture(port_rgb = 1, port_ir = 2, mode = 1, num_images = 10, path = os.getcwd()+"/src/capture_images/" + "images/"):
-
+    pathlib.Path(path).mkdir(parents=True, exist_ok=True)
     #RGB camera. Use port for your laptop
     cap = cv2.VideoCapture(port_rgb)
     ## Ir camera of realsense
@@ -54,4 +53,4 @@ def capture(port_rgb = 1, port_ir = 2, mode = 1, num_images = 10, path = os.getc
         cap.release()
         cv2.destroyAllWindows()
 
-capture(port_rgb = 0, mode = 2, num_images= 250)
+capture(port_rgb = 0, mode = 2, num_images= 250, path="/home/reddy/BRICS/data/single_brick_images")
