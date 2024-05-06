@@ -1,6 +1,6 @@
 
 
-path: 'antonio/Project-BRICS/src/Bricks_detector/data' # dataset root dir
+path: '/home/reddy/BRICS/antonio/Project-BRICS/src/Bricks_detector/data' # dataset root dir
 train: images/train  # train images (relative to 'path')
 val: images/train  # val images (relative to 'path')
 
