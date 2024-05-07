@@ -9,7 +9,7 @@ def capture(port_rgb = 1, port_ir = 2, mode = 1, num_images = 10, path = "/home/
     #RGB camera. Use port for your laptop
     cap = cv2.VideoCapture(port_rgb)
     ## Ir camera of realsense
-    cap_ir = cv2.VideoCapture(port_ir)
+    #cap_ir = cv2.VideoCapture(port_ir)
 
     #Auto exposure for cameras that don't have it
     cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.3)
@@ -53,4 +53,4 @@ def capture(port_rgb = 1, port_ir = 2, mode = 1, num_images = 10, path = "/home/
         cap.release()
         cv2.destroyAllWindows()
 
-capture(port_rgb = 0, mode = 2, num_images= 250, path="/home/reddy/BRICS/data/single_brick_images")
+capture(port_rgb = "https://climbing-novel-grubworm.ngrok-free.app/mjpeg", mode = 1, num_images= 250, path="/home/reddy/BRICS/data/single_brick_images")

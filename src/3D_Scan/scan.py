@@ -14,7 +14,7 @@
 
 from open3d import *    
 
-cloud = io.read_point_cloud("src/3D_Scan/test.ply") # Read point cloud
+cloud = io.read_point_cloud("test.ply") # Read point cloud
 visualization.draw_geometries([cloud])    # Visualize point cloud      
 
 import open3d as o3d
