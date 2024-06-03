@@ -18,8 +18,9 @@
 
 ## 📝Prerequisites
 
-> [!NOTE]
-> Mention the prerequisites(dependencies) to run the project
+ - python 3.10
+ - poetry [(install guide)](https://python-poetry.org/docs/)  
+ 
 
 ## 🚀Quick Start
 
@@ -28,19 +29,14 @@
 
 ## 🌐Running the Application
 
-Create a virtual env
-```bash
-virtualenv venv
-```
-
 Activate the env
 ```bash
-./venv/Scripts/activate
+poetry shell
 ```
 
 Dowload the Dependencies
 ```bash
-pip install -r requirements.txt
+poetry install
 ```
 
 ## 🙌How to Contribute
