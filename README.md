@@ -1,7 +1,6 @@
 # Robot-assisted dismantling of a brick wall
 
-[Hero Image]
-[Small Intro]
+<img src="/docs/images/kuka.png" height="500">
 
 - [Robot-assisted dismantling of a brick wall](#robot-assisted-dismantling-of-a-brick-wall)
   - [✨Objectives](#objectives)
