@@ -18,7 +18,7 @@ def capture(port_rgb = 1, port_ir = 2, mode = 1, num_images = 10, path = "/home/
             os.makedirs(path)
 
     if mode == 1: #Manual capturing
-        num = 0
+        num = 134
         while True:
             ret, frame = cap.read()
             cv2.imshow('frame', frame)
@@ -53,4 +53,4 @@ def capture(port_rgb = 1, port_ir = 2, mode = 1, num_images = 10, path = "/home/
         cap.release()
         cv2.destroyAllWindows()
 
-capture(port_rgb = "https://climbing-novel-grubworm.ngrok-free.app/mjpeg", mode = 1, num_images= 250, path="/home/reddy/BRICS/data/single_brick_images")
+capture(port_rgb = 0, mode = 1, num_images= 250, path="data/single_brick_images")

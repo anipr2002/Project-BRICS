@@ -1,3 +1,6 @@
 venv
 Pipfile.lock
 model
+best.pt
+/data
+/src/3D_Scan/Some-implementions-with-RGBD-camera-RealSense-D435
