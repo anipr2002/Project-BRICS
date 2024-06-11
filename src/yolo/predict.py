@@ -5,7 +5,7 @@ import cv2
 
 
 
-model_path = os.path.join('.', 'Project-BRICS/src/yolo/runs', 'detect', 'train', 'weights', 'best.pt')
+model_path = "/home/fsociety/Code/Projects/Project-BRICS/src/best.pt"
 
 # Load a model
 model = YOLO(model_path)  # load a custom model
