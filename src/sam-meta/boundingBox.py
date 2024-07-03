@@ -8,12 +8,12 @@ from PIL import Image
 
 DEVICE = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 MODEL_TYPE = "vit_b"
-CHECKPOINT_VIT_B = "/home/reddy/BRICS/data/models/sam_vit_b_01ec64.pth"
+CHECKPOINT_VIT_B = "/home/reddy/BRICS/chirag/Project-BRICS/src/sam-meta/model/sam_vit_b_01ec64.pth"
 
 sam = sam_model_registry[MODEL_TYPE](checkpoint=CHECKPOINT_VIT_B).to(device=DEVICE)
 mask_predictor = SamPredictor(sam)
 
-IMAGE_PATH = os.path.join(os.path.dirname(__file__), '/home/reddy/BRICS/data/single_brick_images/manual_image_24.jpg')
+IMAGE_PATH = os.path.join(os.path.dirname(__file__), '/data/reddy/first_pass/test/images/manual_image_168_jpg.rf.e5a693b6540c723b00aa40f51fa62d8a.jpg')
 
 
 
