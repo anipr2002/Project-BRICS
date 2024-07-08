@@ -13,7 +13,7 @@ print("PyTorch Version: ", torch.__version__)
 print("Torchvision Version: ", torchvision.__version__)
 print("CUDA Available: ", torch.cuda.is_available())
 
-brick_image = os.path.join(os.path.dirname(__file__), './images/image.jpg')
+brick_image = os.path.join(os.path.dirname(__file__), '/home/reddy/BRICS/data/single_brick_images/manual_image_24.jpg')
 CHECKPOINT_VIT_L = os.path.join(os.path.dirname(__file__), './model/sam_vit_l_0b3195.pth')
 CHECKPOINT_VIT_H = os.path.join(os.path.dirname(__file__), './model/sam_vit_h_4b8939.pth')
 CHECKPOINT_VIT_B = os.path.join(os.path.dirname(__file__), './model/sam_vit_b_01ec64.pth')
