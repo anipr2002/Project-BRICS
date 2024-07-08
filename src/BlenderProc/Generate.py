@@ -5,6 +5,7 @@ import bpy
 import random
 import math
 import time
+import sys
 
 start = time.time()
 bproc.init()
@@ -12,7 +13,6 @@ bproc.init()
 
 # Load room with bricks:
 objs = bproc.loader.load_blend("/home/reddy/blender_files/roomPalette.blend")
-
 bricks = []
 for i, item in enumerate(objs):
         if item.get_name().startswith("Brick"):
@@ -74,9 +74,9 @@ def set_lighting(Light1 = [[-0.24915, 0, 2.2222], [-0.5405, -0, 1.57079], 20], L
 
 def set_camera(mat = None):
     if mat is None:
-        mat = [[-0.026167, -0.023818 , 0.7], [0, 0, 1.5707]]
+        mat = [[-0.026167, -0.023818 , 0.75], [0, 0, 1.5707]]
     cam_pose = bproc.math.build_transformation_mat(mat[0], mat[1])
-    bproc.camera.add_camera_pose(cam_pose)
+    bproc.camera.add_camera_pose(cam_pose, 0)
     bproc.camera.set_resolution(1920, 1080)
     bproc.camera.set_intrinsics_from_blender_params(lens=1.67552, lens_unit="FOV")
 
@@ -92,11 +92,12 @@ def select_bricks():
 
 def manipulate_brick(brick, place):
     brick.hide(False)
-    brick.set_rotation_euler([0, 0, np.random.uniform(-0.2, 0.2)])
+    brick.set_rotation_euler([np.random.choice([0,3.14], 1)[0], 0, np.random.uniform(-0.2, 0.2)])
     brick.set_location(section_mids[place])
 
 def render_scene():
     # Render the scene
+    bproc.renderer.enable_experimental_features()
     bproc.renderer.enable_normals_output()
     bproc.renderer.enable_segmentation_output(map_by=["category_id", "instance", "name"], default_values={"category_id": None})
     bproc.renderer.set_max_amount_of_samples(2048)
@@ -124,16 +125,27 @@ set_camera()
 set_lighting()
 hide_bricks(bricks)
 
+count = len(os.listdir("/data/reddy/coco_data/images"))
+cur_count = 0
 for run in range(1000):
     chosen = select_bricks()
-    random_list = random.sample(range(0,8), 8)
-    for i, j in enumerate(chosen):
+    number_of_bricks = random.randint(5,8)
+    random_list = random.sample(range(0,8), number_of_bricks)
+    random_camera_pose = [[-0.026167, -0.023818 , round(np.random.uniform(0.75, 1), 2)], [0, 0, 1.5707]]
+    for i, j in enumerate(chosen[:number_of_bricks]):
         print("Manipulating Brick", j.get_name())
         manipulate_brick(j, random_list[i])
     Light1 = get_random_pose(random.randint(0,359), z = 2.222, r = 0.25) + [20]
     Light2 = get_random_pose(random.randint(0,359)) + [50]
     set_lighting(Light1, Light2)
+    set_camera(random_camera_pose)
     render_scene()
     hide_bricks(chosen)
+    cur_count += 1
+    if cur_count + count == 2000:
+        break
+    elif cur_count == 50:
+        sys.exit(1)
 
 print("Time taken:", time.time() - start)
+sys.exit(69)

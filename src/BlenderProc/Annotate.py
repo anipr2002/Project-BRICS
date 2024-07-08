@@ -90,7 +90,7 @@ existing_images = []
 if os.path.exists(dataset_path + "/annotated_images"):
     existing_images = [int(i.split("_")[-1][0:-4]) for i in os.listdir(dataset_path + "/annotated_images")]
 
-# path = "/data/reddy/coco_data"
+path = "/data/reddy/coco_data"
 with open(path + "/coco_annotations.json") as f:
     data = json.load(f)
     annotations = data["annotations"]
