@@ -28,13 +28,13 @@ def resize_pad_image(image, mask = False, new_shape=(640, 640)):
 
 model = YOLO('/home/reddy/BRICS/chirag/Project-BRICS/runs/obb/train2/weights/best.pt')
 
-image_path = '/home/reddy/BRICS/data/images/captured_image_59.jpg'
+image_path = '/data/reddy/coco_data/images/002002.jpg'
 img = cv2.imread(image_path)
 # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 img, scale, top, left = resize_pad_image(img, mask=False, new_shape=(640, 640))
 #rotate image 90
 # img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
-
+image_path = '/data/reddy/coco_data/images/002002_test.jpg'
 cv2.imwrite(image_path, img)
 results = model.predict(image_path, save = True, conf=0.5)
 
