@@ -1,0 +1,27 @@
+
+*** These modified files were found in JOE when it aborted on Tue Dec  3 17:43:32 2024
+*** JOE was aborted by UNIX signal 1
+
+*** File '/home/reddy/BRICS/chirag/Project-BRICS/.git/MERGE_MSG'
+ 'main' of https://github.com/anipr2002/Project-BRICS into main
+# Please enter a commit message to explain why this merge is necessary,
+# especially if it merges an updated upstream into a topic branch.
+#
+# Lines starting with '#' will be ignored, and an empty message aborts
+# the commit.
+merge
+*** File '(Unnamed)'
+q!
+x
+
+*** File '(Unnamed)'
+/home/reddy/BRICS/anirudh/Project-BRICS/.git/MERGE_MSG
+/home/reddy/BRICS/anirudh/Project-BRICS/.git/MERGE_MSG
+/home/reddy/BRICS/anirudh/Project-BRICS/.git/MERGE_MSG
+/home/reddy/BRICS/chirag/Project-BRICS/.git/MERGE_MSG
+
+*** File '* Startup Log *'
+Processing '/etc/joe/editorrc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/editorrc
