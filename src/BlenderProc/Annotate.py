@@ -75,16 +75,48 @@ def rle_to_binary_mask(rle):
 
     return binary_mask
 
-def resize_bounding_box(bbox, scale, pad_top, pad_left):
-    resized_bbox = []
-    for x, y in bbox:
-        new_x = x * scale + pad_left
-        new_y = y * scale + pad_top
-        resized_bbox.append((new_x, new_y))
+def resize_bounding_box(bbox, scale, pad_top, pad_left, margin=0.075):
+    """
+    Resizes a rotated bounding box with added margins while preserving its orientation.
+    
+    Args:
+        bbox (list): List of (x, y) coordinates of the bounding box.
+        scale (float): Scale factor used for resizing.
+        pad_top (int): Top padding added during image resizing.
+        pad_left (int): Left padding added during image resizing.
+        margin (float): Fraction of the bounding box dimensions to add as margin.
+        
+    Returns:
+        np.ndarray: Resized and adjusted bounding box coordinates with margins.
+    """
+    # Convert the bounding box to a NumPy array
+    bbox_array = np.array(bbox, dtype=np.float32)
+    
+    # Find the center of the box
+    rect = cv2.minAreaRect(bbox_array)
+    center, size, angle = rect  # center (x, y), size (width, height), and rotation angle
+    
+    # Add margin to the width and height
+    width, height = size
+    width += margin * width
+    height += margin * height
+
+    # Scale the center position
+    center_x = center[0] * scale + pad_left
+    center_y = center[1] * scale + pad_top
+    scaled_center = (center_x, center_y)
+
+    # Create the new rotated rectangle with the updated size
+    new_rect = (scaled_center, (width * scale, height * scale), angle)
+
+    # Get the four corners of the new bounding box
+    resized_bbox = cv2.boxPoints(new_rect)
+
     return resized_bbox
 
+
 path = "/home/reddy/BlenderProc/examples/advanced/coco_annotations/output/coco_data"
-dataset_path = "/data/reddy/dataset_blender"
+dataset_path = "/data/reddy/dataset_blender2"
 
 existing_images = []
 if os.path.exists(dataset_path + "/annotated_images"):
