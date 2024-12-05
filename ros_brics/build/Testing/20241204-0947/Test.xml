@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="(empty)"
+	BuildStamp="20241204-0947-Experimental"
+	Name="anipr2002"
+	Generator="ctest-3.28.3"
+	CompilerName="/usr/bin/c++"
+	CompilerVersion="13.2.0"
+	OSName="Linux"
+	Hostname="anipr2002"
+	OSRelease="6.8.0-49-generic"
+	OSVersion="#49-Ubuntu SMP PREEMPT_DYNAMIC Mon Nov  4 02:06:24 UTC 2024"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="165"
+	ProcessorCacheSize="12288"
+	NumberOfLogicalCPU="12"
+	NumberOfPhysicalCPU="6"
+	TotalVirtualMemory="2047"
+	TotalPhysicalMemory="15858"
+	LogicalProcessorsPerPhysical="2"
+	ProcessorClockFrequency="4199.98"
+	>
+	<Testing>
+		<StartDateTime>Dec 04 11:33 CET</StartDateTime>
+		<StartTestTime>1733308406</StartTestTime>
+		<TestList/>
+		<EndDateTime>Dec 04 11:33 CET</EndDateTime>
+		<EndTestTime>1733308406</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

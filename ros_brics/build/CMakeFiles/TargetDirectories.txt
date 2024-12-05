@@ -1,0 +1,12 @@
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/uninstall.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/ros_brics_uninstall.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/move_program.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/ament_cmake_python_copy_ros_brics.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/ament_cmake_python_build_ros_brics_egg.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/test.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/edit_cache.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/rebuild_cache.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/list_install_components.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/install.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/install/local.dir
+/home/anipr2002/CODE/ROS_WS/ros_ws/src/ros_brics/build/CMakeFiles/install/strip.dir
