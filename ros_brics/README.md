@@ -33,6 +33,7 @@ Alternative DNS server: 0.0.0.0
 ### Dependencies
 - realsense2_camera ( [repo](https://github.com/IntelRealSense/realsense-ros?tab=readme-ov-file#installation-on-ubuntu))
 - Eigen3 (```sudo apt install libeigen3-dev```)
+- git clone https://gitlab.com/libeigen/eigen.git (do this in ros_ws. not inside src or ros_brics)
 - moveit2 (```sudo apt install ros-jazzy-moveit```)
 - nlohmann_json (I don't remember)
 
