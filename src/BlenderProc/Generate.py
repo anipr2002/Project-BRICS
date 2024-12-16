@@ -12,7 +12,7 @@ bproc.init()
 # bpy.context.scene.view_settings.exposure = -3
 
 # Load room with bricks:
-objs = bproc.loader.load_blend("/home/reddy/blender_files/roomPalette.blend")
+objs = bproc.loader.load_blend("/home/fsociety/Code/Projects/Project-BRICS/blender_files/roomPalette.blend")
 bricks = []
 for i, item in enumerate(objs):
         if item.get_name().startswith("Brick"):
@@ -125,27 +125,27 @@ set_camera()
 set_lighting()
 hide_bricks(bricks)
 
-count = len(os.listdir("/data/reddy/coco_data/images"))
-cur_count = 0
-for run in range(1000):
-    chosen = select_bricks()
-    number_of_bricks = random.randint(5,8)
-    random_list = random.sample(range(0,8), number_of_bricks)
-    random_camera_pose = [[-0.026167, -0.023818 , round(np.random.uniform(0.75, 1), 2)], [0, 0, 1.5707]]
-    for i, j in enumerate(chosen[:number_of_bricks]):
-        print("Manipulating Brick", j.get_name())
-        manipulate_brick(j, random_list[i])
-    Light1 = get_random_pose(random.randint(0,359), z = 2.222, r = 0.25) + [20]
-    Light2 = get_random_pose(random.randint(0,359)) + [50]
-    set_lighting(Light1, Light2)
-    set_camera(random_camera_pose)
-    render_scene()
-    hide_bricks(chosen)
-    cur_count += 1
-    if cur_count + count == 2000:
-        break
-    elif cur_count == 50:
-        sys.exit(1)
+# count = len(os.listdir("/data/reddy/coco_data/images"))
+# cur_count = 0
+# for run in range(10):
+#     chosen = select_bricks()
+#     number_of_bricks = random.randint(5,8)
+#     random_list = random.sample(range(0,8), number_of_bricks)
+#     random_camera_pose = [[-0.026167, -0.023818 , round(np.random.uniform(0.75, 1), 2)], [0, 0, 1.5707]]
+#     for i, j in enumerate(chosen[:number_of_bricks]):
+#         print("Manipulating Brick", j.get_name())
+#         manipulate_brick(j, random_list[i])
+#     Light1 = get_random_pose(random.randint(0,359), z = 2.222, r = 0.25) + [20]
+#     Light2 = get_random_pose(random.randint(0,359)) + [50]
+#     set_lighting(Light1, Light2)
+#     set_camera(random_camera_pose)
+#     # render_scene()
+#     hide_bricks(chosen)
+#     cur_count += 1
+#     if cur_count + count == 2000:
+#         break
+#     elif cur_count == 50:
+#         sys.exit(1)
 
-print("Time taken:", time.time() - start)
-sys.exit(69)
+# print("Time taken:", time.time() - start)
+# sys.exit(69)
