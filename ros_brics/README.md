@@ -35,7 +35,7 @@ Alternative DNS server: 0.0.0.0
 - Eigen3 (```sudo apt install libeigen3-dev```)
 - git clone https://gitlab.com/libeigen/eigen.git (do this in ros_ws. not inside src or ros_brics)
 - moveit2 (```sudo apt install ros-jazzy-moveit```)
-- nlohmann_json (I don't remember)
+- nlohmann_json (```sudo apt install nlohmann-json3-dev```)
 
 
 ### Extract calliberation
