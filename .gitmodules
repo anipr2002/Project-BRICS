@@ -1,0 +1,3 @@
+[submodule "ros_brics"]
+	path = ros_brics
+	url = https://github.com/anipr2002/ros_brics.git
