@@ -138,7 +138,8 @@ def place_camera_on_hemisphere(radius=0.2, center=(0, 0, 0)):
 def set_greenscreen_color(color):
     if type(color) is not str:
         r, g, b = color
-    r, g, b = int(color[0:2], 16), int(color[2:4], 16), int(color[4:6], 16)
+    else:
+        r, g, b = int(color[0:2], 16), int(color[2:4], 16), int(color[4:6], 16)
 
     rgb_curves_node = bpy.data.objects.get("GreenScreen").active_material.node_tree.nodes["RGB Curves"]
     rgb_curves_node.inputs[1].default_value = (r / 255.0, g / 255.0, b / 255.0, 1)
