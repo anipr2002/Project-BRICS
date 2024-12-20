@@ -7,7 +7,10 @@ import math
 import time
 import sys
 import mathutils
+from datetime import datetime
+import json
 
+start_time = time.time()
 bproc.init()
 
 scene = bproc.loader.load_blend("blender_files/SingleBrick_Environment.blend")
@@ -35,6 +38,14 @@ def import_brick(path):
     bpy.ops.import_scene.gltf(filepath=path)
 
     brick_obj = bpy.context.selected_objects[0]
+
+    brick_name = path.split("/")[-1].split(".")[0]
+    if brick_name in existing_bricks.keys():
+        brick_obj["category_id"] = existing_bricks[brick_name]
+    else:
+        brick_obj["category_id"] = len(existing_bricks) + 1
+        existing_bricks[brick_name] = len(existing_bricks) + 1
+
     brick_obj.location = (0, 0, 0)
     place_obj1_on_top_of_obj2(brick_obj, greenscreen)
     bpy.context.view_layer.update()
@@ -144,14 +155,32 @@ def set_greenscreen_color(color):
     rgb_curves_node = bpy.data.objects.get("GreenScreen").active_material.node_tree.nodes["RGB Curves"]
     rgb_curves_node.inputs[1].default_value = (r / 255.0, g / 255.0, b / 255.0, 1)
 
+def render_scene(path):
+    # Render the scene
+    bproc.renderer.enable_experimental_features()
+    bproc.renderer.enable_normals_output()
+    bproc.renderer.enable_segmentation_output(map_by=["category_id", "instance", "name"], default_values={"category_id": None})
+    bproc.renderer.set_max_amount_of_samples(2048)
+    bproc.renderer.set_denoiser("INTEL")
+    bproc.renderer.set_output_format(file_format="JPEG", jpg_quality=150)
+    data = bproc.renderer.render()
+
+    # Write the rendering into an hdf5 file
+    bproc.writer.write_coco_annotations(path,
+                                        instance_segmaps=data["instance_segmaps"],
+                                        instance_attribute_maps=data["instance_attribute_maps"],
+                                        colors=data["colors"],
+                                        color_file_format="JPEG")
+
 set_camera()
 set_lighting()
 
 brick_paths = os.listdir("blender_files/bricks")
-brick_path = random.choice(brick_paths)
-import_brick("blender_files/bricks/" + brick_path)
-place_camera_on_hemisphere()
-set_greenscreen_color("FFFFFF")
+# brick_path = random.choice(brick_paths)
+# import_brick("blender_files/bricks/" + brick_path)
+# place_camera_on_hemisphere()
+# set_greenscreen_color("FFFFFF")
+# render_scene()
 # ## Switch the viewport to camera view
 # for area in bpy.context.screen.areas:
 #     if area.type == 'VIEW_3D':  # Ensure it's the 3D viewport
@@ -160,3 +189,25 @@ set_greenscreen_color("FFFFFF")
 #                 space.region_3d.view_perspective = 'CAMERA'
 #                 break
 # bpy.context.view_layer.update()
+
+path = "/data/reddy/BRICS/single_brick"
+if not os.path.exists(f"{path}/images"):
+    os.makedirs(f"{path}/images")
+count = len(os.listdir(f"{path}/images"))
+existing_bricks = {}
+if os.path.exists(f"{path}/coco_annotations.json"):
+    with open(f"{path}/coco_annotations.json", "r") as f:
+        data = json.load(f)
+        existing_bricks = {cat["name"] : cat["id"] for cat in data["categories"]}
+
+print("Current images: ", count, "at time: ", datetime.now())
+
+brick_path = random.choice(brick_paths)
+brick = import_brick("blender_files/bricks/" + brick_path)
+place_camera_on_hemisphere()
+if count % 2 == 0:
+    set_greenscreen_color("000000")
+else:
+    set_greenscreen_color("FFFFFF")
+render_scene(path)
+print("Time taken: ", time.time() - start_time)
