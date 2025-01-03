@@ -4,10 +4,11 @@ from ultralytics import YOLO
 import cv2
 
 
+root_path = "/data/reddy/BRICS"
+for model in ["control", "canny", "active_canny", "HED1", "HED2", "anime_style", "contour_style", "opensketch_style"]:
+    model_path = f"{root_path}/trains/single_brick/InitialPass_{model}/weights/best.pt"
+    
+    # Load model
+    model = YOLO(model_path)
+    print(f"Model {model_path} loaded successfully")
 
-model_path = os.path.join('.', 'Project-BRICS/models', '001', 'weights', 'best.pt')
-
-# Load a model
-model = YOLO(model_path)  # load a custom model
-
-results = model.predict(source="1", show=True)
