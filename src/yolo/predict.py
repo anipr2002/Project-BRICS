@@ -30,6 +30,8 @@ def resize_pad_image(image, mask = False, new_shape=(640, 640)):
     return new_image, scale, top, left
 
 dataset = "InitialPass"
+trains_path = f"/home/vam_c/Documents/BRICS/personal_ws/trains"
+
 models = {
           f"{dataset}_control" : {"model" : "",  "preprocess" : None, "args" : None}, 
           f"{dataset}_canny" : {"model" : "", "preprocess" : edge_detections.canny_edge, "args" : {"image" : ""}}, 
@@ -48,7 +50,6 @@ def preprocess(model_name, model):
             img = img[int(model_name.split("HED")[-1])-1]
     return img
 
-trains_path = f"/data/reddy/BRICS/trains/"
 # Load the trained model
 for model_name in models:
     models[model_name]["model"] = YOLO(f'{trains_path}/{dataset}/{model_name}/weights/best.pt')
@@ -73,7 +74,6 @@ def image_predictions(image_dir, output_dir):
 
                 if models[model_name]["args"] is not None:
                     models[model_name]["args"]["image"] = img
-                # Run prediction on the original-sized image, saving results in a single folder
                     
                     img = preprocess(model_name, models[model_name])
 
@@ -118,16 +118,19 @@ def video_predictions(source, model):
         img = resize_pad_image(frame)[0]
         if models[model]["args"] is not None:
             models[model]["args"]["image"] = img
-        img = preprocess(model, models[model])
-        results = models[model]["model"].predict(img, conf=0.9)
+            img = preprocess(model, models[model])
+        results = models[model]["model"].predict(img, conf=0.8)
         
         cv2.imshow("Prediction", results[0].plot())
 
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
     cap.release()
     cv2.destroyAllWindows()
 # Directory containing the images to test
 image_dir = '/home/reddy/BRICS/chirag/Project-BRICS/src/yolo/captured'
 output_dir = f'/home/reddy/BRICS/chirag/Project-BRICS/src/yolo/predictions'
-os.makedirs(output_dir, exist_ok=True)
+# os.makedirs(output_dir, exist_ok=True)
 
-image_predictions(image_dir, output_dir)
+# image_predictions(image_dir, output_dir)
+video_predictions(6, f"{dataset}_contour_style")
