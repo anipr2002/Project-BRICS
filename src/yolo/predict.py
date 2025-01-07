@@ -4,6 +4,7 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 import edge_detections
+import sys
 
 def resize_pad_image(image, mask = False, new_shape=(640, 640)):
     # Resize image to fit into new_shape maintaining aspect ratio
@@ -29,19 +30,7 @@ def resize_pad_image(image, mask = False, new_shape=(640, 640)):
 
     return new_image, scale, top, left
 
-dataset = "InitialPass"
-trains_path = f"/home/vam_c/Documents/BRICS/personal_ws/trains"
 
-models = {
-          f"{dataset}_control" : {"model" : "",  "preprocess" : None, "args" : None}, 
-          f"{dataset}_canny" : {"model" : "", "preprocess" : edge_detections.canny_edge, "args" : {"image" : ""}}, 
-          f"{dataset}_active_canny" : {"model" : "", "preprocess" : edge_detections.active_canny, "args" : {"image" : ""}},
-          f"{dataset}_HED1" : {"model" : "", "preprocess" : edge_detections.hed_edge, "args" : {"image" : "", "layer" : 1}},
-          f"{dataset}_HED2" : {"model" : "", "preprocess" : edge_detections.hed_edge, "args" : {"image" : "", "layer" : 2}},
-          f"{dataset}_anime_style" : {"model" : "", "preprocess" : edge_detections.info_drawing, "args" : {"image" : "", "model_name" : "anime_style"}},
-          f"{dataset}_contour_style" : {"model" : "", "preprocess" : edge_detections.info_drawing, "args" : {"image" : "", "model_name" : "contour_style"}},
-          f"{dataset}_opensketch_style" : {"model" : "", "preprocess" : edge_detections.info_drawing, "args" : {"image" : "", "model_name" : "opensketch_style"}},
-          }
 
 def preprocess(model_name, model):
     if model["preprocess"]:
@@ -50,10 +39,6 @@ def preprocess(model_name, model):
             img = img[int(model_name.split("HED")[-1])-1]
     return img
 
-# Load the trained model
-for model_name in models:
-    models[model_name]["model"] = YOLO(f'{trains_path}/{dataset}/{model_name}/weights/best.pt')
-    print(f"Loaded model: {model_name}")
 
 
 
@@ -105,7 +90,7 @@ def image_predictions(image_dir, output_dir):
 
         print(f"Stitched {grid_size}x{grid_size} image saved at: {stitched_image_path}")
 
-def video_predictions(source, model):
+def video_predictions(source, dataset, selected_models = ["control", "canny", "anime_style"]):
     cap = cv2.VideoCapture(source)
 
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
@@ -116,15 +101,42 @@ def video_predictions(source, model):
         if not ret:
             break
         img = resize_pad_image(frame)[0]
-        if models[model]["args"] is not None:
-            models[model]["args"]["image"] = img
-            img = preprocess(model, models[model])
-        results = models[model]["model"].predict(img, conf=0.8)
-        
-        cv2.imshow("Prediction", results[0].plot())
 
+        # List to hold the results for the current frame from all models
+        frame_results = []
+
+        for model_name in selected_models:
+            model_name = f"{dataset}_{model_name}"
+            # Preprocess image if necessary
+            if models[model_name]["args"] is not None:
+                models[model_name]["args"]["image"] = img
+                img = preprocess(model_name, models[model_name])
+
+            # Run the prediction
+            results = models[model_name]["model"].predict(img, conf=0.8)
+
+            # Get the visualized result
+            result_image = results[0].plot()
+            frame_results.append(result_image)
+
+        # Stitch the results into a grid
+        grid_size = int(len(frame_results) ** 0.5) + 1
+        # Add blank images if needed to fill the grid
+        if len(frame_results) < grid_size * grid_size:
+            blank_image = np.zeros_like(frame_results[0])
+            frame_results.extend([blank_image] * (grid_size * grid_size - len(frame_results)))
+
+        # Create the grid
+        rows = [np.hstack(frame_results[i * grid_size:(i + 1) * grid_size]) for i in range(grid_size)]
+        stitched_frame = np.vstack(rows)
+
+        # Display the stitched grid
+        cv2.imshow("Stitched Predictions", stitched_frame)
+
+        # Exit on pressing 'q'
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+
     cap.release()
     cv2.destroyAllWindows()
 # Directory containing the images to test
@@ -132,5 +144,25 @@ image_dir = '/home/reddy/BRICS/chirag/Project-BRICS/src/yolo/captured'
 output_dir = f'/home/reddy/BRICS/chirag/Project-BRICS/src/yolo/predictions'
 # os.makedirs(output_dir, exist_ok=True)
 
+
+dataset = "InitialPass"
+trains_path = f"/home/fsociety/Downloads/"
+
+models = {
+          f"{dataset}_control" : {"model" : "",  "preprocess" : None, "args" : None}, 
+          f"{dataset}_canny" : {"model" : "", "preprocess" : edge_detections.canny_edge, "args" : {"image" : ""}}, 
+          f"{dataset}_active_canny" : {"model" : "", "preprocess" : edge_detections.active_canny, "args" : {"image" : ""}},
+          f"{dataset}_HED1" : {"model" : "", "preprocess" : edge_detections.hed_edge, "args" : {"image" : "", "layer" : 1}},
+          f"{dataset}_HED2" : {"model" : "", "preprocess" : edge_detections.hed_edge, "args" : {"image" : "", "layer" : 2}},
+          f"{dataset}_anime_style" : {"model" : "", "preprocess" : edge_detections.info_drawing, "args" : {"image" : "", "model_name" : "anime_style"}},
+          f"{dataset}_contour_style" : {"model" : "", "preprocess" : edge_detections.info_drawing, "args" : {"image" : "", "model_name" : "contour_style"}},
+          f"{dataset}_opensketch_style" : {"model" : "", "preprocess" : edge_detections.info_drawing, "args" : {"image" : "", "model_name" : "opensketch_style"}},
+          }
+
+# Load the trained model
+for model_name in models:
+    models[model_name]["model"] = YOLO(f'{trains_path}/{dataset}/{model_name}/weights/best.pt')
+    print(f"Loaded model: {model_name}")
+
 # image_predictions(image_dir, output_dir)
-video_predictions(6, f"{dataset}_contour_style")
+video_predictions(4, dataset)
