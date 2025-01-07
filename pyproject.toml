@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "brics"
+version = "0.1.0"
+package-mode = false
+description = "brick reusablity and intelligent classifcation system"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+segment-anything = {git = "https://github.com/facebookresearch/segment-anything.git"}
+torch = "^2.3.0"
+torchvision = "^0.18.0"
+opencv-python = "^4.9.0.80"
+ultralytics = "^8.2.5"
+numpy = "^1.26.4"
+pydantic = "^2.7.1"
+scikit-learn = "^1.4.2"
+addict = "^2.4.0"
+imagezmq = "^1.1.1"
+openmim = "^0.3.9"
+supervision = "0.21.0.rc5"
+pycocotools = "^2.0.8"
+mathutils = "^3.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
