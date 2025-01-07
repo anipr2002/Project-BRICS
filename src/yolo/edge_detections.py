@@ -7,7 +7,8 @@ from torchvision.utils import save_image
 from PIL import Image
 from Info_Drawing_Files.model import Generator
 
-def canny_edge(image, path="", annotation=False):
+def canny_edge(path="", **kwargs):
+    image = kwargs["image"]
     # Convert image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -19,7 +20,8 @@ def canny_edge(image, path="", annotation=False):
     if path:
         cv2.imwrite(path, edges_color)
     
-    if annotation:
+    if "annotation" in kwargs:
+        annotation = kwargs["annotation"]
         annotated_image = cv2.drawContours(edges_color, [annotation[1]], 0, (255, 255, 255), 1)
         #split tail and head
         path = f"{annotation[0]}/annotated_images/canny/" + os.path.split(path)[1]
@@ -27,7 +29,8 @@ def canny_edge(image, path="", annotation=False):
         cv2.imwrite(f"{path}", annotated_image)
     return edges_color
 
-def active_canny(image, path="", annotation=False):
+def active_canny(path="", **kwargs):
+    image = kwargs["image"]
     # Convert the image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -52,7 +55,8 @@ def active_canny(image, path="", annotation=False):
     if path:
         cv2.imwrite(path, edges_color)
 
-    if annotation:
+    if "annotation" in kwargs:
+        annotation = kwargs["annotation"]
         annotated_image = cv2.drawContours(edges_color, [annotation[1]], 0, (255, 255, 255), 1)
         #split tail and head
         path = f"{annotation[0]}/annotated_images/active_canny/" + os.path.split(path)[1]
@@ -60,8 +64,13 @@ def active_canny(image, path="", annotation=False):
         cv2.imwrite(f"{path}", annotated_image)
     return edges_color
  
-def hed_edge(image, path="", annotation=False):
+def hed_edge(path="", **kwargs):
     # Prepare the image for HED
+    image = kwargs["image"]
+    layer = None
+    if "layer" in kwargs:
+        layer = kwargs["layer"]
+    
 
     (h, w) = image.shape[:2]
     blob = cv2.dnn.blobFromImage(image, scalefactor=1.0, size=(640, 640), mean=(104.00698793, 116.66876762, 122.67891434), swapRB=False, crop=True)
@@ -88,7 +97,8 @@ def hed_edge(image, path="", annotation=False):
             cv2.imwrite(path, output_image)
             
 
-            if annotation:
+            if "annotation" in kwargs:
+                annotation = kwargs["annotation"]
                 temp_path = path
                 annotated_image = cv2.drawContours(output_image, [annotation[1]], 0, (255, 255, 255), 1)
                 #split tail and head
@@ -96,11 +106,17 @@ def hed_edge(image, path="", annotation=False):
                 cv2.imwrite(f"{temp_path}", annotated_image)
             
             path = path.replace(f"/{str(i+1)}/", "/PlAcEhOlDeR/")
-            
-    return output_images_bgr
+    if layer:
+        return output_images_bgr[layer-1]
+    else:
+        return output_images_bgr
 
-def info_drawing(image, model_name, path="", annotation=False):
-    checkpoints_dir = "Bachelor_Thesis/Info_Drawing_Files/checkpoints"
+def info_drawing(path="", **kwargs):
+
+    image = kwargs["image"]
+    model_name = kwargs["model_name"]
+
+    checkpoints_dir = "src/yolo/Info_Drawing_Files/checkpoints"
 
     with torch.no_grad():
         
@@ -142,14 +158,16 @@ def info_drawing(image, model_name, path="", annotation=False):
     else:
         output_image = cv2.cvtColor(output_image, cv2.COLOR_RGB2BGR)
 
-    if annotation:
+    if "annotation" in kwargs:
+        annotation = kwargs["annotation"]
         annotated_image = cv2.drawContours(output_image, [annotation[1]], 0, (0, 0, 0), 1)
         #split tail and head
         path = f"{annotation[0]}/annotated_images/{model_name}/" + os.path.split(path)[1]
         cv2.imwrite(f"{path}", annotated_image)
+
     return output_image
 
-prototxt_path = '/home/reddy/BRICS/chirag/Project-BRICS/src/BlenderProc/Annotations/HED_Files/deploy.prototxt'
-caffemodel_path = '/home/reddy/BRICS/chirag/Project-BRICS/src/BlenderProc/Annotations/HED_Files/hed_pretrained_bsds.caffemodel'
+prototxt_path = 'src/yolo/HED_Files/deploy.prototxt'
+caffemodel_path = 'src/yolo/HED_Files/hed_pretrained_bsds.caffemodel'
 net = cv2.dnn.readNetFromCaffe(prototxt_path, caffemodel_path)
 print("HED model loaded successfully")

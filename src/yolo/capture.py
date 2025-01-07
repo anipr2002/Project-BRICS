@@ -8,7 +8,7 @@ def capture_images(output_dir="src/yolo/captured", image_format="jpg"):
 
     # Set up the RealSense camera using OpenCV
     # Replace '0' with the appropriate device index if you have multiple cameras
-    cap = cv2.VideoCapture(4)
+    cap = cv2.VideoCapture(6)
 
     # Set the resolution to 720p (1280x720)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
